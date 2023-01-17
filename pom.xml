@@ -4,7 +4,7 @@
   <parent>
     <groupId>io.github.dbstarll.parent</groupId>
     <artifactId>base</artifactId>
-    <version>1.2.9</version>
+    <version>1.2.10-SNAPSHOT</version>
   </parent>
   <groupId>io.github.dbstarll.test</groupId>
   <artifactId>test-move-to-org</artifactId>
@@ -12,7 +12,7 @@
 
   <name>test-move-to-org</name>
   <description>test-move-to-org</description>
-  <url>https://github.com/dbstarll/test-move-to-org</url>
+  <url>https://github.com/dbstar-org/test-move-to-org</url>
 
   <scm>
     <connection>scm:git:${project.git.git.root}</connection>
@@ -23,6 +23,7 @@
 
   <properties>
     <project.git.project>test-move-to-org</project.git.project>
+    <project.git.group>dbstar-org</project.git.group>
   </properties>
 
   <profiles>
