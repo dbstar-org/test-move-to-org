@@ -16,6 +16,8 @@ jobs:
           java-version: '8'
           distribution: 'adopt'
 
+      - run: cat ~/.m2/settings.xml
+
       - name: Generate Maven Settings
         uses: whelk-io/maven-settings-xml-action@v18
         with:
@@ -34,6 +36,8 @@ jobs:
                 "password": "${{ secrets.GITHUB_TOKEN }}"
               }
             ]
+
+      - run: cat ~/.m2/settings.xml
 
       - name: Cache local Maven repository
         uses: actions/cache@v2
