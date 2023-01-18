@@ -40,6 +40,7 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/maven-setup-action@main
       - name: Package with Maven
         run: mvn -B -U clean package
   test:
