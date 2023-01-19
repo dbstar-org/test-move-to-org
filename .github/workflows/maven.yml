@@ -4,7 +4,6 @@ on: [push]
 
 jobs:
   build:
-    needs: setup
     runs-on: ubuntu-latest
     steps:
       - uses: dbstar-org/maven-setup-action@main
