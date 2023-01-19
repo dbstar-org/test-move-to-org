@@ -34,4 +34,4 @@ jobs:
       - run: cat ~/.m2/settings.xml
       - run: echo '${{ steps.setup-maven.outputs.java-version }}'
       - run: echo '${{ steps.setup-maven.outputs.distribution }}'
-      - run: echo '${{ needs }}'
+      - run: echo '${{ toJSON(needs) }}'
