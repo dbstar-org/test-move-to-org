@@ -17,8 +17,8 @@ jobs:
       - name: Verify with Maven
         run: mvn -B -U clean verify
   sonar:
-    if: vars.SONAR_PROJECT_KEY != ''
     needs: verify
+    if: vars.SONAR_PROJECT_KEY != ''
     runs-on: ubuntu-latest
     steps:
       - uses: dbstar-org/setup-maven@v1
@@ -26,6 +26,7 @@ jobs:
         run: mvn -B -U clean verify
   deploy:
     needs: [verify, sonar]
+    if: needs.verify.result == 'success' && contains(fromJSON('["success", "skipped"]'), needs.sonar.result)
     runs-on: ubuntu-latest
     steps:
       - uses: dbstar-org/setup-maven@v1
