@@ -24,7 +24,7 @@ jobs:
       - uses: dbstar-org/setup-maven@v1
       - name: Verify with Maven
         run: mvn -B -U clean verify
-  deploy:
+  install:
     needs: [verify, sonar]
     if: always() && needs.verify.result == 'success' && needs.sonar.result == 'skipped'
     runs-on: ubuntu-latest
@@ -34,4 +34,10 @@ jobs:
       - run: cat ~/.m2/settings.xml
       - run: echo '${{ steps.setup-maven.outputs.java-version }}'
       - run: echo '${{ steps.setup-maven.outputs.distribution }}'
+      - run: echo '${{ toJSON(needs) }}'
+  deploy:
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dbstar-org/setup-maven@v1
       - run: echo '${{ toJSON(needs) }}'
