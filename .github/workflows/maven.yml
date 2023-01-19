@@ -26,8 +26,7 @@ jobs:
         run: mvn -B -U clean verify
       - run: env
   install:
-    needs: [verify, sonar]
-    if: always() && needs.verify.result == 'success' && needs.sonar.result == 'skipped'
+    needs: sonar
     runs-on: ubuntu-latest
     steps:
       - uses: dbstar-org/setup-maven@v1
