@@ -26,7 +26,7 @@ jobs:
         run: mvn -B -U clean verify
   deploy:
     needs: [verify, sonar]
-    if: needs.verify.result == 'success' && needs.sonar.result == 'skipped'
+    if: always()
     runs-on: ubuntu-latest
     steps:
       - uses: dbstar-org/setup-maven@v1
@@ -34,3 +34,4 @@ jobs:
       - run: cat ~/.m2/settings.xml
       - run: echo '${{ steps.setup-maven.outputs.java-version }}'
       - run: echo '${{ steps.setup-maven.outputs.distribution }}'
+      - run: echo '${{ needs }}'
