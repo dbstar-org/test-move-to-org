@@ -17,7 +17,7 @@ jobs:
       - name: Verify with Maven
         run: mvn -B -U clean verify
   sonar:
-    if: secrets.SONAR_PROJECT_KEY == ''
+    if: vars.SONAR_PROJECT_KEY != ''
     needs: verify
     runs-on: ubuntu-latest
     steps:
