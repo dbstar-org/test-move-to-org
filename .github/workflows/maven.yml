@@ -3,21 +3,29 @@ name: maven
 on: [push]
 
 jobs:
-  build:
+  package:
     runs-on: ubuntu-latest
     steps:
       - uses: dbstar-org/setup-maven@v1
       - name: Package with Maven
-        run: mvn -B -U clean package
-  test:
-    needs: build
+        run: mvn -B -U clean package -DskipTests=true
+  verify:
+    needs: package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dbstar-org/setup-maven@v1
+      - name: Verify with Maven
+        run: mvn -B -U clean verify
+  sonar:
+    if: secrets.SONAR_PROJECT_KEY == ''
+    needs: verify
     runs-on: ubuntu-latest
     steps:
       - uses: dbstar-org/setup-maven@v1
       - name: Verify with Maven
         run: mvn -B -U clean verify
   deploy:
-    needs: test
+    needs: [verify, sonar]
     runs-on: ubuntu-latest
     steps:
       - uses: dbstar-org/setup-maven@v1
