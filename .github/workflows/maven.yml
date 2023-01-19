@@ -6,19 +6,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: dbstar-org/maven-setup-action@main
+      - uses: dbstar-org/setup-maven@v1
       - name: Package with Maven
         run: mvn -B -U clean package
   test:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: dbstar-org/maven-setup-action@main
+      - uses: dbstar-org/setup-maven@v1
       - name: Verify with Maven
         run: mvn -B -U clean verify
   deploy:
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - uses: dbstar-org/maven-setup-action@main
+      - uses: dbstar-org/setup-maven@v1
+        id: setup-maven
       - run: cat ~/.m2/settings.xml
+      - run: echo '${{ steps.setup-maven.outputs.java-version }}'
+      - run: echo '${{ steps.setup-maven.outputs.distribution }}'
