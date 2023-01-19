@@ -25,6 +25,33 @@ jobs:
       ACTOR_TOKEN: ${{ secrets.ACTOR_TOKEN }}
     steps:
       - uses: dbstar-org/maven-setup-action@main
+      - name: Generate settings.xml for Maven Builds
+        uses: whelk-io/maven-settings-xml-action@v21
+        with:
+          servers: >
+            [
+              {
+                "id": "github-repository-owner",
+                "username": "${env.GITHUB_ACTOR}",
+                "password": "${env.ACTOR_TOKEN}"
+              },
+              {
+                "id": "github-actor",
+                "username": "${env.GITHUB_ACTOR}",
+                "password": "${{ secrets.ACTOR_TOKEN }}"
+              }
+            ]
+          repositories: >
+            [
+              {
+                "id": "github-repository-owner",
+                "url": "https://maven.pkg.github.com/${env.GITHUB_REPOSITORY_OWNER}/*"
+              },
+              {
+                "id": "github-actor",
+                "url": "https://maven.pkg.github.com/${env.GITHUB_ACTOR}/*"
+              }
+            ]
       - name: Package with Maven
         run: mvn -B -U clean package
   test:
