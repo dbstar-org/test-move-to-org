@@ -53,12 +53,3 @@ jobs:
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: mvn -B -U clean deploy -P release,distribution-github
-  release:
-    needs: verify
-    runs-on: ubuntu-latest
-    steps:
-      - uses: dbstar-org/setup-maven@v1
-        with:
-          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-      - run: cat ~/.m2/settings.xml
-      - run: gpg -k
