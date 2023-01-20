@@ -46,19 +46,19 @@ jobs:
     permissions:
       packages: write
     steps:
-      - uses: dbstar-org/setup-maven@main
+      - uses: dbstar-org/setup-maven@v1
         with:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-      - run: cat ~/.m2/settings.xml
+          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
       - name: Deploy to Github
-        env:
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: mvn -B -U clean deploy -P release,distribution-github
   release:
     needs: verify
     runs-on: ubuntu-latest
     steps:
-      - uses: dbstar-org/setup-maven@main
+      - uses: dbstar-org/setup-maven@v1
         with:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
       - run: cat ~/.m2/settings.xml
+      - run: gpg -k
