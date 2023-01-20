@@ -1,6 +1,10 @@
 name: maven
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
+      - snapshot-*
 
 jobs:
   package:
@@ -18,15 +22,25 @@ jobs:
         run: mvn -B -U clean verify
   sonar:
     needs: verify
-    if: vars.SONAR_PROJECT_KEY != ''
     runs-on: ubuntu-latest
     steps:
       - uses: dbstar-org/setup-maven@v1
         with:
           java-version: 11
           fetch-depth: 0
-      - name: Verify with Maven
-        run: mvn -B -U clean verify
+      - name: Cache SonarQube packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+      - name: Verify with Maven with SonarQube
+        if: env.SONAR_PROJECT_KEY != '' && env.SONAR_TOKEN != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
+        run: mvn -B -U verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
       - run: env
   deploy:
     needs: verify
