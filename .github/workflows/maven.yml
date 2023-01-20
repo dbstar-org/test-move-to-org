@@ -47,6 +47,8 @@ jobs:
       packages: write
     steps:
       - uses: dbstar-org/setup-maven@v1
+        with:
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
       - name: Deploy to Github
         run: mvn -B -U clean deploy -P release,distribution-github
   release:
