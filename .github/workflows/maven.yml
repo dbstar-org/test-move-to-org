@@ -47,10 +47,6 @@ jobs:
       packages: write
     steps:
       - uses: dbstar-org/setup-maven@v1
-      - uses: crazy-max/ghaction-import-gpg@v3
-        with:
-          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.GPG_PASSPHRASE }}
       - name: Deploy to Github
         run: mvn -B -U clean deploy -P release,distribution-github
   release:
