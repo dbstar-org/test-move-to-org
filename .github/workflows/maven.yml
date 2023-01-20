@@ -45,9 +45,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: dbstar-org/setup-maven@v1
-        id: setup-maven
-      - run: cat ~/.m2/settings.xml
-      - run: echo '${{ steps.setup-maven.outputs.java-version }}'
-      - run: echo '${{ steps.setup-maven.outputs.distribution }}'
-      - run: echo '${{ steps.setup-maven.outputs.java-home }}'
-      - run: echo '${{ toJSON(needs) }}'
+      - uses: crazy-max/ghaction-import-gpg@v3
+        with:
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+      - name: Deploy to Github
+        run: mvn -B -U clean deploy -P release,distribution-github
