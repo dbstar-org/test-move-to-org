@@ -49,6 +49,7 @@ jobs:
       - uses: dbstar-org/setup-maven@main
         with:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+      - run: cat ~/.m2/settings.xml
       - name: Deploy to Github
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
