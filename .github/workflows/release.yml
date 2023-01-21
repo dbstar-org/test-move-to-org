@@ -26,6 +26,12 @@ jobs:
               <id>github-actor</id>
               <url>https://maven.pkg.github.com/${env.GITHUB_ACTOR}/*</url>
             </repository>
+          servers: >
+            <server>
+              <id>github-actor</id>
+              <username>${env.GITHUB_ACTOR}</username>
+              <password>${env.GITHUB_TOKEN}</password>
+            </server>
       - run: echo '${{ toJSON(github) }}'
       - run: echo '${{ toJSON(runner) }}'
       - run: echo '${{ toJSON(env) }}'
