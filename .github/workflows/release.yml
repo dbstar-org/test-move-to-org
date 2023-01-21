@@ -15,3 +15,5 @@ jobs:
           distribution: 'adopt'
       - run: cat ~/.m2/settings.xml
       - run: gpg -k
+      - run: echo '${{ toJSON(github) }}'
+      - run: echo '${{ toJSON(runner) }}'
