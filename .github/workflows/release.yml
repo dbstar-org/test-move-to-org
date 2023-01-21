@@ -18,16 +18,14 @@ jobs:
       - uses: dbstar-org/maven-settings-appender@main
         with:
           repositories: >
-            [
-              {
-                "id": "github",
-                "url": "https://maven.pkg.github.com/${env.GITHUB_REPOSITORY_OWNER}/*"
-              },
-              {
-                "id": "github-actor",
-                "url": "https://maven.pkg.github.com/${env.GITHUB_ACTOR}/*"
-              }
-            ]
+            <repository>
+              <id>github</id>
+              <url>https://maven.pkg.github.com/${env.GITHUB_REPOSITORY_OWNER}/*</url>
+            </repository>
+            <repository>
+              <id>github-actor</id>
+              <url>https://maven.pkg.github.com/${env.GITHUB_ACTOR}/*</url>
+            </repository>
       - run: echo '${{ toJSON(github) }}'
       - run: echo '${{ toJSON(runner) }}'
       - run: echo '${{ toJSON(env) }}'
