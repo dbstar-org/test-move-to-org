@@ -5,6 +5,9 @@ on:
     branches:
       - main
       - snapshot-*
+    paths-ignore:
+      - '.github/workflows/release.yml'
+      - 'README.md'
 
 jobs:
   package:
