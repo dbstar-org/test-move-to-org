@@ -14,9 +14,20 @@ jobs:
           java-version: '8'
           distribution: 'adopt'
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-          cache: 'maven'
       - run: cat ~/.m2/settings.xml
-      - run: gpg -k
+      - uses: dbstar-org/maven-settings-modifier@main
+        with:
+          repositories: >
+            [
+              {
+                "id": "github",
+                "url": "https://maven.pkg.github.com/${env.GITHUB_REPOSITORY_OWNER}/*"
+              },
+              {
+                "id": "github-actor",
+                "url": "https://maven.pkg.github.com/${env.GITHUB_ACTOR}/*"
+              }
+            ]
       - run: echo '${{ toJSON(github) }}'
       - run: echo '${{ toJSON(runner) }}'
       - run: echo '${{ toJSON(env) }}'
