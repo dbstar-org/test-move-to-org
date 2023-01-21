@@ -1,0 +1,14 @@
+name: release
+
+on: workflow_dispatch
+
+jobs:
+  release:
+    if: github.ref_type == 'branch' && (github.ref_name == 'main' || startsWith(github.ref_name, 'snapshot-'))
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dbstar-org/setup-maven@main
+        with:
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+      - run: cat ~/.m2/settings.xml
+      - run: gpg -k
