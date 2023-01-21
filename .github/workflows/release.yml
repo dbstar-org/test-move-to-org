@@ -15,7 +15,7 @@ jobs:
           distribution: 'adopt'
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
       - run: cat ~/.m2/settings.xml
-      - uses: dbstar-org/maven-settings-modifier@main
+      - uses: dbstar-org/maven-settings-appender@main
         with:
           repositories: >
             [
