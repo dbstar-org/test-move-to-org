@@ -14,10 +14,9 @@ jobs:
           java-version: '8'
           distribution: 'adopt'
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-      - run: cat ~/.m2/settings.xml
       - uses: dbstar-org/maven-settings-appender@main
         with:
-          repositories: >
+          repositories: |-
             <repository>
               <id>github</id>
               <url>https://maven.pkg.github.com/${env.GITHUB_REPOSITORY_OWNER}/*</url>
@@ -26,14 +25,10 @@ jobs:
               <id>github-actor</id>
               <url>https://maven.pkg.github.com/${env.GITHUB_ACTOR}/*</url>
             </repository>
-          servers: >
+          servers: |-
             <server>
               <id>github-actor</id>
               <username>${env.GITHUB_ACTOR}</username>
               <password>${env.GITHUB_TOKEN}</password>
             </server>
-      - run: echo '${{ toJSON(github) }}'
-      - run: echo '${{ toJSON(runner) }}'
-      - run: echo '${{ toJSON(env) }}'
-      - run: env
-      - run: jq
+      - run: cat ~/.m2/settings.xml
