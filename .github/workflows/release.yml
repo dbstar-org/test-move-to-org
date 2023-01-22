@@ -26,9 +26,9 @@ jobs:
               <url>https://maven.pkg.github.com/${env.GITHUB_ACTOR}/*</url>
             </repository>
           servers: |-
-            <server>
-              <id>github-actor</id>
-              <username>${env.GITHUB_ACTOR}</username>
-              <password>${env.GITHUB_TOKEN}</password>
-            </server>
+                <server>
+                  <id>github-actor</id>
+                  <username>${env.GITHUB_ACTOR}</username>
+                  <password>${env.GITHUB_TOKEN}</password>
+                </server>
       - run: cat ~/.m2/settings.xml
