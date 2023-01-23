@@ -10,17 +10,27 @@ jobs:
       - uses: dbstar-org/setup-maven@v1
         with:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-      - name: Configure Git user
-        run: |
-          git config --local user.name ${{ github.actor }}
-          git config --local user.email ${{ github.actor }}@gmail.com
-          git config --local user.signingkey ${{ secrets.GPG_KEY }}
-          git config --local commit.gpgsign true
-      - run: echo "${{ toJSON(github) }}"
-      - name: Verify with Maven
+
+      - name: Prepare Release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        run: mvn -B -U release:prepare -P release,distribution-github
+
+      - run: cp ${{ github.workspace }}/release.properties ${{ github.workspace }}/release.properties.bak
+
+      - name: Perform Release to Github
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        run: mvn -B -U release:perform -P release,distribution-github
+
+      - run: mv ${{ github.workspace }}/release.properties.bak ${{ github.workspace }}/release.properties
+
+      - name: Perform Release to Ossrh
         env:
           GITHUB_TOKEN: ${{ github.token }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           OSS_USERNAME: ${{ secrets.OSS_USERNAME }}
           OSS_PASSWORD: ${{ secrets.OSS_PASSWORD }}
-        run: mvn -B -U clean verify -Prelease
+        run: mvn -B -U release:perform -P release,distribution-ossrh
