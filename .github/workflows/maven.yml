@@ -19,6 +19,9 @@ jobs:
     needs: verify
     if: vars.SONAR_PROJECT_KEY != ''
     uses: dbstar-org/general/.github/workflows/maven-sonar.yml@main
+    with:
+      project-key: ${{ vars.SONAR_PROJECT_KEY }}
+    secrets: inherit
   deploy:
     needs: verify
     runs-on: ubuntu-latest
