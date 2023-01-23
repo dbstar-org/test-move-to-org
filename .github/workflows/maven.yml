@@ -24,5 +24,7 @@ jobs:
     secrets: inherit
   deploy:
     needs: verify
+    permissions:
+      packages: write
     uses: dbstar-org/general/.github/workflows/maven-deploy.yml@main
     secrets: inherit
