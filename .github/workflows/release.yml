@@ -12,7 +12,7 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
       - run: cat ~/.m2/settings.xml
       - name: Verify with Maven
-        run: mvn -B -U clean verify
+        run: mvn -B -U clean verify -Pgithub-actor
       - uses: dbstar-org/maven-settings-appender@main
         with:
           repositories: |-
