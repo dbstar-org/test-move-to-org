@@ -14,11 +14,18 @@ jobs:
         with:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
 
+      - name: Configure Git user
+        run: |
+          git config --local user.name ${{ github.actor }}
+          git config --local user.email ${{ github.actor }}@gmail.com
+          git config --local user.signingkey ${{ secrets.GPG_KEY }}
+          git config --local commit.gpgsign true
+
       - name: Prepare Release
         env:
           GITHUB_TOKEN: ${{ github.token }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-        run: mvn -B -U release:prepare -P release,distribution-github
+        run: mvn -B -U release:prepare -P release,distribution-github -DsignTag=true
 
       - run: cp ${{ github.workspace }}/release.properties ${{ github.workspace }}/release.properties.bak
 
