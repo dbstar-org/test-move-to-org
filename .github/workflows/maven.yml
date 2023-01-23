@@ -18,23 +18,7 @@ jobs:
   sonar:
     needs: verify
     if: vars.SONAR_PROJECT_KEY != ''
-    runs-on: ubuntu-latest
-    steps:
-      - uses: dbstar-org/setup-maven@v1
-        with:
-          java-version: 11
-          fetch-depth: 0
-      - name: Cache SonarQube packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-      - name: Verify with Maven to SonarQube
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: mvn -B -U verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY }}
+    uses: dbstar-org/general/.github/workflows/maven-sonar.yml@main
   deploy:
     needs: verify
     runs-on: ubuntu-latest
