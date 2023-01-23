@@ -10,15 +10,8 @@ jobs:
       - uses: dbstar-org/setup-maven@v1
         with:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+      - run: cat ~/.m2/settings.xml
       - name: Verify with Maven
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: mvn -B -U clean verify
-      - uses: dbstar-org/maven-settings-appender@v1
-        with:
-          repositories: |-
-            <repository>
-              <id>github</id>
-              <url>https://maven.pkg.github.com/${env.GITHUB_REPOSITORY_OWNER}/*</url>
-            </repository>
-      - run: cat ~/.m2/settings.xml
+        run: mvn -B -U clean verify -Prelease
