@@ -10,21 +10,10 @@ on:
       - 'README.md'
 
 jobs:
-  package:
-    uses: dbstar-org/general/.github/workflows/maven-package.yml@main
-  verify:
-    needs: package
-    uses: dbstar-org/general/.github/workflows/maven-verify.yml@main
-  sonar:
-    needs: verify
-    if: vars.SONAR_PROJECT_KEY != ''
-    uses: dbstar-org/general/.github/workflows/maven-sonar.yml@main
-    with:
-      project-key: ${{ vars.SONAR_PROJECT_KEY }}
-    secrets: inherit
-  deploy:
-    needs: verify
+  maven:
     permissions:
       packages: write
-    uses: dbstar-org/general/.github/workflows/maven-deploy.yml@main
+    uses: dbstar-org/general/.github/workflows/maven.yml@main
+    with:
+      SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
     secrets: inherit
