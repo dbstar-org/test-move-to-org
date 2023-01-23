@@ -10,9 +10,17 @@ jobs:
       - uses: dbstar-org/setup-maven@v1
         with:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-      - run: cat ~/.m2/settings.xml
+      - name: Configure Git user
+        run: |
+          git config --local user.name ${{ github.actor }}
+          git config --local user.email ${{ github.actor }}@gmail.com
+          git config --local user.signingkey ${{ secrets.GPG_KEY }}
+          git config --local commit.gpgsign true
+      - run: echo "${{ toJSON(github) }}"
       - name: Verify with Maven
         env:
           GITHUB_TOKEN: ${{ github.token }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          OSS_USERNAME: ${{ secrets.OSS_USERNAME }}
+          OSS_PASSWORD: ${{ secrets.OSS_PASSWORD }}
         run: mvn -B -U clean verify -Prelease
