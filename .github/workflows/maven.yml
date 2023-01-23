@@ -56,3 +56,4 @@ jobs:
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: mvn -B -U clean deploy -P release,distribution-github
+
