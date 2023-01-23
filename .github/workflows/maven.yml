@@ -15,6 +15,8 @@ jobs:
     steps:
       - uses: dbstar-org/setup-maven@v1
       - name: Package with Maven
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: mvn -B -U clean package -DskipTests=true
   verify:
     needs: package
@@ -22,6 +24,8 @@ jobs:
     steps:
       - uses: dbstar-org/setup-maven@v1
       - name: Verify with Maven
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: mvn -B -U clean verify
   sonar:
     needs: verify
@@ -39,7 +43,7 @@ jobs:
           key: ${{ runner.os }}-sonar
       - name: Verify with Maven to SonarQube
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: mvn -B -U verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY }}
@@ -54,6 +58,6 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
       - name: Deploy to Github
         env:
+          GITHUB_TOKEN: ${{ github.token }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: mvn -B -U clean deploy -P release,distribution-github
-
