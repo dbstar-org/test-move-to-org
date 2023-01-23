@@ -11,10 +11,11 @@ jobs:
         with:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
       - run: cat ~/.m2/settings.xml
+      - run: env
       - name: Verify with Maven
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: mvn -B -U clean verify -Pgithub-actor
+        run: mvn -B -U clean verify
       - uses: dbstar-org/maven-settings-appender@main
         with:
           repositories: |-
@@ -22,14 +23,4 @@ jobs:
               <id>github</id>
               <url>https://maven.pkg.github.com/${env.GITHUB_REPOSITORY_OWNER}/*</url>
             </repository>
-            <repository>
-              <id>github-actor</id>
-              <url>https://maven.pkg.github.com/${env.GITHUB_ACTOR}/*</url>
-            </repository>
-          servers: |-
-            <server>
-              <id>github-actor</id>
-              <username>${env.GITHUB_ACTOR}</username>
-              <password>${env.GITHUB_TOKEN}</password>
-            </server>
       - run: cat ~/.m2/settings.xml
