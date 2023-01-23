@@ -11,22 +11,10 @@ on:
 
 jobs:
   package:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: dbstar-org/setup-maven@v1
-      - name: Package with Maven
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: mvn -B -U clean package -DskipTests=true
+    uses: dbstar-org/general/.github/workflows/maven-package.yml@main
   verify:
     needs: package
-    runs-on: ubuntu-latest
-    steps:
-      - uses: dbstar-org/setup-maven@v1
-      - name: Verify with Maven
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: mvn -B -U clean verify
+    uses: dbstar-org/general/.github/workflows/maven-verify.yml@main
   sonar:
     needs: verify
     if: vars.SONAR_PROJECT_KEY != ''
