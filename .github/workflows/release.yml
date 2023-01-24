@@ -7,5 +7,5 @@ jobs:
     permissions:
       contents: write
       packages: write
-    uses: dbstar-org/general/.github/workflows/maven-release.yml@main
+    uses: dbstar-org/general/.github/workflows/maven-release.yml@v1
     secrets: inherit
