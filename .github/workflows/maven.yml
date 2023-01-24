@@ -8,6 +8,7 @@ on:
     paths-ignore:
       - '.github/workflows/release.yml'
       - 'README.md'
+  workflow_dispatch:
 
 jobs:
   maven:
@@ -16,4 +17,8 @@ jobs:
     uses: dbstar-org/general/.github/workflows/maven.yml@v1
     with:
       SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
-    secrets: inherit
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
