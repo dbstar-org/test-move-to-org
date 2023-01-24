@@ -8,7 +8,7 @@ jobs:
       contents: write
       packages: write
     uses: dbstar-org/general/.github/workflows/maven-release.yml@v1
-    secrets: inherit
+    secrets:
       GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
       GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
       GPG_KEY: ${{ secrets.GPG_KEY }}
