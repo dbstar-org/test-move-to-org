@@ -12,14 +12,14 @@ jobs:
           java-version: '8'
           distribution: 'adopt'
       - id: cache-maven
-        uses: actions/cache@v3
+        uses: actions/cache/restore@v3
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven
+          key: ${{ runner.os }}-maven-${{ github.run_id }}-${{ github.job }}
       - run: echo "${{ toJson(steps.cache-maven) }}"
       - run: mvn clean package
-      - if: steps.cache-maven.outputs.cache-hit == 'true'
+      - if: steps.cache-maven.outputs.cache-hit != 'true'
         uses: actions/cache/save@v3
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven
+          key: ${{ runner.os }}-maven-${{ github.run_id }}-${{ github.job }}
