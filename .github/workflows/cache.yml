@@ -1,0 +1,15 @@
+name: cache
+
+on: workflow_dispatch
+
+jobs:
+  cache:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache local Maven repository
+        id: cache-maven
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven
+      - run: echo "${{ toJson(steps.cache-maven) }}"
