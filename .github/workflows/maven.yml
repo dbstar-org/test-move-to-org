@@ -6,7 +6,6 @@ on:
     paths-ignore:
       - '.github/workflows/release.yml'
       - 'README.md'
-  workflow_dispatch:
 
 jobs:
   maven:
