@@ -21,7 +21,7 @@ jobs:
           restore-keys: ${{ runner.os }}-maven-
       - run: echo "${{ toJson(steps.cache-maven) }}"
       - run: mvn -B -U -V clean package
-      - run: echo "hash is ${{ hashFiles('.m2/repository/**.jar', '.m2/repository/**.pom') }}"
+      - run: echo "hash is ${{ hashFiles('.m2/repository/**/*.jar', '.m2/repository/**/*.pom') }}"
       - if: steps.cache-maven.outputs.cache-hit == 'true11'
         uses: actions/cache/save@v3
         with:
