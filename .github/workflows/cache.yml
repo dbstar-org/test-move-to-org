@@ -11,7 +11,7 @@ jobs:
         uses: dbstar-org/setup-maven@v1
         with:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-      - run: mvn -B -U -V clean verify
+      - run: mvn clean verify -Prelease
         env:
           GITHUB_TOKEN: ${{ github.token }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
