@@ -8,11 +8,13 @@ jobs:
     steps:
       - name: Setup Maven
         id: setup-maven
-        uses: dbstar-org/setup-maven@v1
+        uses: dbstar-org/setup-maven@feature-maven-cache
       - run: mvn clean verify
         env:
           MAVEN_OPTS: ${{ vars.MAVEN_OPTS }}
       - name: Update Maven Repository Cache
+        id: cache-maven
+        if: false
         uses: dbstar-org/maven-cache-updater@v1
         with:
           cache-matched-key: ${{ steps.setup-maven.outputs.cache-matched-key }}
