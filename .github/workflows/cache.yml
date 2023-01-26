@@ -21,7 +21,7 @@ jobs:
           key: ${{ runner.os }}-maven-
           restore-keys: ${{ runner.os }}-maven-
       - run: echo "${{ toJson(steps.cache-maven) }}"
-      - run: mvn -B -U -V clean package
+      - run: mvn -B -U -V clean verify
       - name: Calculate Maven Repository Cache Key
         id: hash-maven
         run: echo "cache-key=${{ steps.cache-maven.outputs.cache-primary-key }}${{ hashFiles('.m2/repository/**/*.jar', '.m2/repository/**/*.pom') }}" >>$GITHUB_OUTPUT
