@@ -9,14 +9,12 @@ jobs:
       - name: Setup Maven
         id: setup-maven
         uses: dbstar-org/setup-maven@main
-      - run: echo "${{ toJson(steps.setup-maven) }}"
       - run: mvn -B -U -V clean verify
       - name: Calculate Maven Repository Cache Key
         id: hash-maven
         run: echo "cache-key=${{ runner.os }}-maven-${{ hashFiles('.m2/repository/**/*.jar', '.m2/repository/**/*.pom') }}" >>$GITHUB_OUTPUT
-      - run: echo "${{ toJson(steps.hash-maven) }}"
       - name: Save Maven Repository Cache
-        if: steps.setup-maven.outputs.cache-hit == 'true' && steps.setup-maven.outputs.cache-matched-key != steps.hash-maven.outputs.cache-key
+        if: steps.setup-maven.outputs.cache-matched-key != steps.hash-maven.outputs.cache-key
         uses: actions/cache/save@v3
         with:
           path: .m2/repository
