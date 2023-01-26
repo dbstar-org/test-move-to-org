@@ -9,12 +9,8 @@ jobs:
       - name: Setup Maven
         id: setup-maven
         uses: dbstar-org/setup-maven@v1
-        with:
-          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-      - run: mvn clean verify -Prelease
+      - run: mvn clean verify
         env:
-          GITHUB_TOKEN: ${{ github.token }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           MAVEN_OPTS: ${{ vars.MAVEN_OPTS }}
       - name: Update Maven Repository Cache
         id: cache-maven
