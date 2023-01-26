@@ -9,6 +9,8 @@ jobs:
       - name: Setup Maven
         id: setup-maven
         uses: dbstar-org/setup-maven@feature-maven-cache
+        with:
+          cache-strategy: 'fashion'
       - run: mvn clean verify
         env:
           MAVEN_OPTS: ${{ vars.MAVEN_OPTS }}
