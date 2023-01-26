@@ -26,8 +26,9 @@ jobs:
         id: hash-maven
         run: echo "cache-key=${{ steps.cache-maven.outputs.cache-primary-key }}${{ hashFiles('.m2/repository/**/*.jar', '.m2/repository/**/*.pom') }}" >>$GITHUB_OUTPUT
       - run: echo "${{ toJson(steps.hash-maven) }}"
-      - if: steps.cache-maven.outputs.cache-hit == 'true11'
+      - name: Save Maven Repository Cache
+        if: steps.cache-maven.outputs.cache-matched-key != steps.hash-maven.outputs.cache-key
         uses: actions/cache/save@v3
         with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ github.run_id }}-${{ github.job }}
+          path: .m2/repository
+          key: ${{ steps.hash-maven.outputs.cache-key }}
