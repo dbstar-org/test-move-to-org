@@ -7,7 +7,6 @@ on:
       - snapshot-*
     paths-ignore:
       - '.github/workflows/release.yml'
-      - '.github/workflows/cache.yml'
       - 'README.md'
   workflow_dispatch:
 
