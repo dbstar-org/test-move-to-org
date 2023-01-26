@@ -12,7 +12,7 @@ jobs:
       - run: mvn -B -U -V clean verify
       - name: Update Maven Repository Cache
         id: cache-maven
-        uses: dbstar-org/maven-cache-updater@main
+        uses: dbstar-org/maven-cache-updater@v1
         with:
           cache-matched-key: ${{ steps.setup-maven.outputs.cache-matched-key }}
-      - run: cat ${{ toJSON(steps) }}
+      - run: echo ${{ toJSON(steps) }}
