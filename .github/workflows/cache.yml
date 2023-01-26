@@ -16,7 +16,7 @@ jobs:
           MAVEN_OPTS: ${{ vars.MAVEN_OPTS }}
       - name: Update Maven Repository Cache
         id: cache-maven
-        if: false
+        if: steps.setup-maven.outputs.cache-matched-key != ''
         uses: dbstar-org/maven-cache-updater@v1
         with:
           cache-matched-key: ${{ steps.setup-maven.outputs.cache-matched-key }}
