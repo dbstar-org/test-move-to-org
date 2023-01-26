@@ -9,6 +9,7 @@ jobs:
       - name: Setup Maven
         id: setup-maven
         uses: dbstar-org/setup-maven@main
+      - run: cat ~/.m2/settings.xml
       - run: mvn -B -U -V clean verify
       - name: Calculate Maven Repository Cache Key
         id: hash-maven
